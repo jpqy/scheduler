@@ -33,15 +33,7 @@ storiesOf("DayListItem", module) //Initiates Storybook and registers our DayList
   }) // Provides the default background color for our component
   .add("Unselected", () => <DayListItem name="Monday" spots={5} />) // To define our stories, we call add() once for each of our test states to generate a story
   .add("Selected", () => <DayListItem name="Monday" spots={5} selected />)
-  .add("Full", () => <DayListItem name="Monday" spots={0} />)
-  .add("Clickable", () => (
-  <InterviewerListItem
-    id={interviewer.id}
-    name={interviewer.name}
-    avatar={interviewer.avatar}
-    setInterviewer={event => action("setInterviewer")(interviewer.id)}
-  />
-));
+  .add("Full", () => <DayListItem name="Monday" spots={0} />);
 
 const days = [
   {
@@ -102,11 +94,11 @@ storiesOf("InterviewerListItem", module)
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      onChange={action("setInterviewer")}
+      setInterviewer={event => action("setInterviewer")(interviewer.id)}
     />
   ));
 
-  const interviewers = [
+const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
   { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
