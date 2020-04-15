@@ -12,7 +12,7 @@ export function getAppointmentsForDay(state, dayString) {
   // Add each appointment with that key
   const filteredAppointments = [];
   for (const appointmentId of appointmentIdArray) {
-    filteredAppointments.push(state.appointments[appointmentId.toString()]);
+    filteredAppointments.push(state.appointments[appointmentId]);
   }
 
   return filteredAppointments;
