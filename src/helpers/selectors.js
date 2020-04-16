@@ -28,3 +28,23 @@ export function getInterview(state, interview) {
     return null;
   };
 }
+
+// The function will return an array of interviewers for the given day.
+export function getInterviewersForDay(state, dayString) {
+
+  // Find the array of appointment IDs of the query day
+  let interviewerIdArray = [];
+  for (const day of state.days) {
+    if (day.name === dayString) {
+      interviewerIdArray = day.interviewers;
+    }
+  }
+
+  // Add each appointment with that key
+  const filteredInterviewers = [];
+  for (const interviewerId of interviewerIdArray) {
+    filteredInterviewers.push(state.interviewers[interviewerId]);
+  }
+
+  return filteredInterviewers;
+}
