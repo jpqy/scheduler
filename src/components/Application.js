@@ -29,7 +29,6 @@ export default function Application(props) {
   }, []);
 
   const appointmentsOnCurrentDay = getAppointmentsForDay(state, state.day);
-  console.log(state.interviewers);
   return (
     <main className="layout">
       <section className="sidebar">

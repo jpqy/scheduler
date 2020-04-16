@@ -17,3 +17,14 @@ export function getAppointmentsForDay(state, dayString) {
 
   return filteredAppointments;
 }
+
+// Return a new object containing the interview data when we pass it an object
+// that contains the interviewer. Otherwise, the function should return null.
+export function getInterview(state, interview) {
+  try {
+    return { student: interview.student, interviewer: state.interviewers[interview.interviewer] };
+  }
+  catch{
+    return null;
+  };
+}
