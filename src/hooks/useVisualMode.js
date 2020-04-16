@@ -11,12 +11,15 @@ export default function useVisualMode(initial) {
 
 
   const back = () => {
+    // Cannot go back past initial element
+    if (history.length === 1) return;
+
     setHistory(prevArray => {
       prevArray.pop();
       setMode(prevArray[prevArray.length - 1]);
       return prevArray;
     });
-    
+
     // Why didn't the code below work? After calling setHistory, the value of history seems unchanged
     // console.log("before setHistory", history);
     // setHistory(history.slice(0, -1));
