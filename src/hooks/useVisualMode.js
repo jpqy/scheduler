@@ -26,8 +26,9 @@ export default function useVisualMode(initial) {
     // Why didn't the code below work? After calling setHistory, the value of history seems unchanged
     // console.log("before setHistory", history);
     // setHistory(history.slice(0, -1));
+    // // setHistory(["this should change history right?"]);
     // console.log("after setHistory", history);
-    // setMode(history[history.length - 1]);
+    // setMode(history[history.length - 2]);
   };
 
 
