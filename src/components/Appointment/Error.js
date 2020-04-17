@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * 
+ * @param {Object} props
+ * @param {String} props.message
+ * @param {Function} props.onClose
+ */
 export default function Error(props) {
   return (
     <main className="appointment__card appointment__card--error">
