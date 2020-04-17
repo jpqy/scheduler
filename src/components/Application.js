@@ -41,9 +41,8 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    // Mentor q: when is it appropriate to directly use state vs prev?
-    // setState(prev => { return { ...prev, appointments }; });
-    setState({ ...state, appointments });
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(() => { setState(prev => ({ ...prev, appointments })); });
   }
 
   const appointmentsOnCurrentDay = getAppointmentsForDay(state, state.day);
