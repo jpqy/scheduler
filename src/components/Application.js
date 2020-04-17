@@ -30,6 +30,20 @@ export default function Application(props) {
 
   function bookInterview(id, interview) {
     console.log(id, interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    // Mentor q: when is it appropriate to directly use state vs prev?
+    // setState(prev => { return { ...prev, appointments }; });
+    setState({ ...state, appointments });
   }
 
   const appointmentsOnCurrentDay = getAppointmentsForDay(state, state.day);
