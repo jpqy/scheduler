@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
+/**
+ * 
+ * @param {Object} props
+ * @param {String} props.name Name of student
+ * @param {Number} props.interviewer
+ * @param {Function} props.onSave
+ * @param {Function} props.onCancel
+ */
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
