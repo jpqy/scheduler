@@ -24,7 +24,6 @@ export default function useApplicationData() {
     setState(prev => ({ ...prev, day }));
   };
 
-
   function calculateSpots(dayObj, appointments) {
     let spots = dayObj.appointments.length;
     for (const appointmentId of dayObj.appointments) {
@@ -33,6 +32,22 @@ export default function useApplicationData() {
       }
     }
     return spots;
+  }
+
+  // Returns a new days array with updated spot values when given an
+  // appointmentId that was modified
+  function getNewDaysArray(appointmentId, appointments) {
+    const newDays = [...state.days];
+
+    // Find which day the appointment was on
+    const dayIndex = state.days.findIndex(day => day.appointments.includes(appointmentId));
+
+    // Update the spots value and generate new days array
+    const day = { ...state.days[dayIndex], spots: calculateSpots(state.days[dayIndex], appointments) };
+
+    newDays[dayIndex] = day;
+
+    return newDays;
   }
 
   function bookInterview(id, interview) {
@@ -47,13 +62,7 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    // Find which day the appointment was on
-    const dayIndex = state.days.findIndex(day => day.appointments.includes(id));
-
-    // Update the spots value and generate new days array
-    const day = { ...state.days[dayIndex], spots: calculateSpots(state.days[dayIndex], appointments) };
-    const days = [...state.days];
-    days[dayIndex] = day;
+    const days = getNewDaysArray(id, appointments);
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
@@ -73,13 +82,7 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    // Find which day the appointment was on
-    const dayIndex = state.days.findIndex(day => day.appointments.includes(id));
-
-    // Update the spots value and generate new days array
-    const day = { ...state.days[dayIndex], spots: calculateSpots(state.days[dayIndex], appointments) };
-    const days = [...state.days];
-    days[dayIndex] = day;
+    const days = getNewDaysArray(id, appointments);
 
     return axios.delete(`/api/appointments/${id}`)
       .then(() => {
