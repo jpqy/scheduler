@@ -21,10 +21,10 @@ export default function useApplicationData() {
         return ({ ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers });
       case SET_INTERVIEW: {
         const { id, interview } = action;
-
+        console.log(interview);
         const appointment = {
           ...state.appointments[id],
-          interview: { ...interview }
+          interview: interview && { ...interview }
         };
 
         const appointments = {
@@ -40,17 +40,7 @@ export default function useApplicationData() {
         const days = [...state.days];
         days[dayIndex] = day;
 
-        if (interview) {
-          return axios.put(`/api/appointments/${id}`, interview)
-            .then(() => {
-              return ({ ...state, appointments, days });
-            });
-        } else {
-          return axios.delete(`/api/appointments/${id}`)
-            .then(() => {
-              return ({ ...state, appointments, days });
-            });
-        }
+        return ({ ...state, appointments, days });
       }
       default:
         throw new Error(
@@ -68,9 +58,14 @@ export default function useApplicationData() {
       ws.send("ping");
     };
 
-    ws.onmessage = function(event) {
-      console.log("Message Received:", event.data);
-    };
+    // ws.onmessage = function(event) {
+    //   console.log("Message Received:", event.data);
+    //   const dataJson = JSON.parse(event.data);
+    //   // if (dataJson.type === SET_INTERVIEW) {
+    //     // const { type, id, interview } = dataJson;
+    //     // dispatch({ type, id, interview });
+    //   // }
+    // };
 
     // Get and load data from server into state
     Promise.all([
@@ -97,12 +92,17 @@ export default function useApplicationData() {
   }
 
   function bookInterview(id, interview) {
-    dispatch({ type: SET_INTERVIEW, id, interview });
-
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(() => {
+        dispatch({ type: SET_INTERVIEW, id, interview });
+      });
   }
 
   function cancelInterview(id) {
-    dispatch({ type: SET_INTERVIEW, id, interview: null });
+    return axios.delete(`/api/appointments/${id}`)
+      .then(() => {
+        dispatch({ type: SET_INTERVIEW, id, interview: null });
+      });
   }
 
   return { state, setDay, bookInterview, cancelInterview };
