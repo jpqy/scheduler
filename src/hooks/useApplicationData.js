@@ -61,6 +61,18 @@ export default function useApplicationData() {
 
   // Fetch days and appointments into state
   useEffect(() => {
+
+    // WebSocket stretch
+    const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    ws.onopen = function() {
+      ws.send("ping");
+    };
+
+    ws.onmessage = function(event) {
+      console.log("Message Received:", event.data);
+    };
+
+    // Get and load data from server into state
     Promise.all([
       axios.get("/api/days"),
       axios.get("/api/appointments"),
