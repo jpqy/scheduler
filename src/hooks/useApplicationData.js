@@ -49,25 +49,20 @@ export default function useApplicationData() {
     }
   }
 
-  // Fetch days and appointments into state
   useEffect(() => {
-
-    // WebSocket stretch
     const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    ws.onopen = function() {
-      ws.send("ping");
+
+    // Server sends {type="SET_INTERVIEW", id, interview} after successful
+    // put/delete request, which we listen for in order to update state
+    ws.onmessage = function(event) {
+      const dataJson = JSON.parse(event.data);
+      if (dataJson.type === SET_INTERVIEW) {
+        const { type, id, interview } = dataJson;
+        dispatch({ type, id, interview });
+      }
     };
 
-    // ws.onmessage = function(event) {
-    //   console.log("Message Received:", event.data);
-    //   const dataJson = JSON.parse(event.data);
-    //   // if (dataJson.type === SET_INTERVIEW) {
-    //     // const { type, id, interview } = dataJson;
-    //     // dispatch({ type, id, interview });
-    //   // }
-    // };
-
-    // Get and load data from server into state
+    // Fetch days and appointments from server into state
     Promise.all([
       axios.get("/api/days"),
       axios.get("/api/appointments"),
