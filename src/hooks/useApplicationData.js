@@ -50,18 +50,19 @@ export default function useApplicationData() {
   }
 
   useEffect(() => {
-    const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    if (process.env.REACT_APP_WEBSOCKET_URL) {
+      const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
-    // Server sends {type="SET_INTERVIEW", id, interview} after successful
-    // put/delete request, which we listen for in order to update state
-    ws.onmessage = function(event) {
-      const dataJson = JSON.parse(event.data);
-      if (dataJson.type === SET_INTERVIEW) {
-        const { type, id, interview } = dataJson;
-        dispatch({ type, id, interview });
-      }
-    };
-
+      // Server sends {type="SET_INTERVIEW", id, interview} after successful
+      // put/delete request, which we listen for in order to update state
+      ws.onmessage = function(event) {
+        const dataJson = JSON.parse(event.data);
+        if (dataJson.type === SET_INTERVIEW) {
+          const { type, id, interview } = dataJson;
+          dispatch({ type, id, interview });
+        }
+      };
+    }
     // Fetch days and appointments from server into state
     Promise.all([
       axios.get("/api/days"),
