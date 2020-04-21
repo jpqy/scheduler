@@ -47,5 +47,37 @@ describe("Application", () => {
     expect(getByText(monday, /no spots remaining/i)).toBeInTheDocument();
 
   });
+  
+  it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
+    // 1. Render the Application.
+    const { container } = render(<Application />);
 
+    // 2. Wait until the text "Archie Cohen" is displayed.
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 3. Grab the second article tag DOM which has a booked interview
+    const appointments = getAllByTestId(container, "appointment");
+    const bookedAppointment = appointments.find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );;
+
+    // 4. Click the "Delete" button
+    fireEvent.click(getByAltText(bookedAppointment, "Delete"));
+
+    // 5. Expect "confirm" to be displayed
+    expect(getByText(bookedAppointment, "Confirm")).toBeInTheDocument();
+
+    // 6. Click confirm
+    fireEvent.click(getByText(bookedAppointment, "Confirm"));
+
+    // 7. Check that the element with the text "Deleting" is displayed.
+    expect(getByText(bookedAppointment, "Deleting")).toBeInTheDocument();
+
+    // 8. Wait until the element has the "add" button displayed
+    await waitForElement(() => getByAltText(bookedAppointment, "Add"));
+
+    // 9. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining"
+    const monday = getAllByTestId(container, "list").find(day => queryByText(day, "Monday"));
+    expect(getByText(monday, /2 spots remaining/i)).toBeInTheDocument();
+  });
 });
