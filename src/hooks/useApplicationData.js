@@ -21,7 +21,6 @@ export default function useApplicationData() {
         return ({ ...state, days: action.days, appointments: action.appointments, interviewers: action.interviewers });
       case SET_INTERVIEW: {
         const { id, interview } = action;
-        console.log(interview);
         const appointment = {
           ...state.appointments[id],
           interview: interview && { ...interview }
