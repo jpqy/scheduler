@@ -37,4 +37,18 @@ describe("Appointments", () => {
     cy.contains(".appointment__card--show", "New Student")
       .contains(".appointment__card--show", "Tori Malcolm");
   });
+
+  it("should delete an interview", () => {
+
+    // Delete the first interview and click confirm
+    cy.get("[alt=Delete]").first().click({ force: true });
+    cy.contains("Confirm").click();
+
+    // See the "Deleting" status temporarily
+    cy.contains("Deleting");
+    cy.contains("Deleting").should("not.exist");
+
+    // Expect to not find the student name anymore
+    cy.contains(".appointment__card--show", "Archie Cohen").should("not.exist")
+  });
 })
