@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText, queryByText } from "@testing-library/react";
 
@@ -108,6 +109,65 @@ describe("Application", () => {
     expect(getByText(bookedAppointment, "New Student")).toBeInTheDocument();
 
     // 9. Check that the DayListItem with the text "Monday" also has the text "1 spots remaining"
+    const monday = getAllByTestId(container, "list").find(day => queryByText(day, "Monday"));
+    expect(getByText(monday, /1 spot remaining/i)).toBeInTheDocument();
+  });
+
+  it("shows the save error when failing to save an appointment", async () => {
+    // Have the first mock put request throw an error
+    axios.put.mockRejectedValueOnce();
+
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointments = getAllByTestId(container, "appointment");
+    const firstAppointment = appointments[0];
+    fireEvent.click(getByAltText(firstAppointment, "Add"));
+    fireEvent.change(getByPlaceholderText(firstAppointment, "Enter Student Name"), {
+      target: { value: "Error Student" }
+    });
+    fireEvent.click(getByAltText(firstAppointment, "Sylvia Palmer"));
+
+    // Click "save"
+    fireEvent.click(getByText(firstAppointment, "Save"));
+
+    // Should transition to "saving" status then wait for error message
+    expect(getByText(firstAppointment, "Saving")).toBeInTheDocument();
+    await waitForElement(() => getByText(firstAppointment, /could not/i));
+
+    // Hit the close button and should see the add button again
+    fireEvent.click(getByAltText(firstAppointment, "Close"));
+    expect(getByAltText(firstAppointment, "Add")).toBeInTheDocument();
+
+    // Monday sidebar item should still display "1 spot remaining"
+    const monday = getAllByTestId(container, "list").find(day => queryByText(day, "Monday"));
+    expect(getByText(monday, /1 spot remaining/i)).toBeInTheDocument();
+  });
+
+  it("shows the delete error when failing to delete an existing appointment", async () => {
+    // Have the first mock delete request throw an error
+    axios.delete.mockRejectedValueOnce();
+
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+    const appointments = getAllByTestId(container, "appointment");
+    const bookedAppointment = appointments.find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+
+    fireEvent.click(getByAltText(bookedAppointment, "Delete"));
+    expect(getByText(bookedAppointment, "Confirm")).toBeInTheDocument();
+    fireEvent.click(getByText(bookedAppointment, "Confirm"));
+
+    // Expect "Deleting" status, then error message
+    expect(getByText(bookedAppointment, "Deleting")).toBeInTheDocument();
+    await waitForElement(() => getByText(bookedAppointment, /could not/i));
+
+    // Hit the close button and should see the original interview again
+    fireEvent.click(getByAltText(bookedAppointment, "Close"));
+    expect(getByText(bookedAppointment, "Archie Cohen")).toBeInTheDocument();
+
+    // Monday sidebar item should still display "1 spot remaining"
     const monday = getAllByTestId(container, "list").find(day => queryByText(day, "Monday"));
     expect(getByText(monday, /1 spot remaining/i)).toBeInTheDocument();
   });
