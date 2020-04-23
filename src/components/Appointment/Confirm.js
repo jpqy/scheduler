@@ -2,10 +2,13 @@ import React from 'react';
 import Button from "../Button";
 
 /**
- * @param {Object} props
- * @param {String} props.message
- * @param {Function} props.onCancel
- * @param {Function} props.onConfirm
+ * The Confirm component displays a message in the Appointment container
+ * asking the user to confirm the dangerous action of deleting an appointment.
+ * 
+ * @param {Object}   props
+ * @param {String}   props.message   The message to be displayed
+ * @param {Function} props.onCancel  Called when user clicks "close" button
+ * @param {Function} props.onConfirm Called when user clicks "confirm" button
  */
 export default function Confirm(props) {
   return (

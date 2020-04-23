@@ -1,10 +1,10 @@
 // The function will return an array of appointments for the given day.
-export function getAppointmentsForDay(state, dayString) {
+export function getAppointmentsForDay(state, targetDay) {
 
   // Find the array of appointment IDs of the query day
   let appointmentIdArray = [];
   for (const day of state.days) {
-    if (day.name === dayString) {
+    if (day.name === targetDay) {
       appointmentIdArray = day.appointments;
     }
   }

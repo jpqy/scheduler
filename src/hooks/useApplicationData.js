@@ -1,7 +1,20 @@
 import { useEffect, useReducer } from 'react';
 import axios from "axios";
-import reducer, {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW} from "reducers/application"
+import reducer, { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW } from "reducers/application";
 
+/**
+ * A custom hook that manages overall application state including the currently
+ * selected day, and data about appointments, interviewers, and interviews
+ * across all days, synced to the scheduler-api server via axios requests and
+ * WebSocket. Uses a reducer to manipulate the state.
+ * 
+ * @typedef  {Object}   Data
+ * @property {Object}   state           The state object
+ * @property {Function} setDay          Function to set the current day
+ * @property {Function} bookInterview   Makes API request to (re-)assign an interview object to an Appointment
+ * @property {Function} cancelInterview Makes API request to set Appointment's interview object to null
+ * @returns  {Data}                     { state, setDay, bookInterview, cancelInterview }
+ */
 export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",

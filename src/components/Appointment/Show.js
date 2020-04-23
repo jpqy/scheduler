@@ -1,5 +1,16 @@
 import React from 'react';
 
+/**
+ * The Show component is displayed when an Appointment component has an
+ * interview object (i.e. is booked). It displays the student name, interviewer
+ * name, and buttons to edit and delete the interview.
+ * 
+ * @param {Object}   props
+ * @param {String}   props.student     Student name of the booking
+ * @param {Object}   props.interviewer Interviewer of the booking
+ * @param {Function} props.onDelete    Called when "delete" is clicked
+ * @param {Function} props.onEdit      Called when "edit" is clicked
+ */
 export default function Show(props) {
   return (
     <main className="appointment__card appointment__card--show">

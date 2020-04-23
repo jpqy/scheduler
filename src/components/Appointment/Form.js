@@ -3,12 +3,17 @@ import Button from "../Button";
 import InterviewerList from "../InterviewerList";
 
 /**
+ * The Form component allows users to type in their name, select an interviewer
+ * from the InterviewerList component and save the interview.
  * 
- * @param {Object} props
- * @param {String} props.name Name of student
- * @param {Number} props.interviewer
- * @param {Function} props.onSave
- * @param {Function} props.onCancel
+ * @param {Object}   props
+ * @param {String}   props.name         Student name (passed if editing)
+ * @param {Number}   props.interviewer  Interviewer ID (passed if editing)
+ * @param {Object[]} props.interviewers Array of objects representing the
+ *                                      interviewers available on the current
+ *                                      day, passed to InterviewerListItem
+ * @param {Function} props.onSave       Called when "save" is clicked
+ * @param {Function} props.onCancel     Called when "cancel" is clicked
  */
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
@@ -53,7 +58,11 @@ export default function Form(props) {
           />
         </form>
         <section className="appointment__validation">{error}</section>
-        <InterviewerList interviewers={props.interviewers} value={interviewer} onChange={setInterviewer} />
+        <InterviewerList
+          interviewers={props.interviewers}
+          value={interviewer}
+          onChange={setInterviewer}
+        />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">

@@ -1,10 +1,12 @@
 import React from 'react';
 
 /**
+ * The Error component is displayed in the appointment container to notify
+ * the user of a failed request when saving or deleting an interview.
  * 
- * @param {Object} props
- * @param {String} props.message
- * @param {Function} props.onClose
+ * @param {Object}   props
+ * @param {String}   props.message The error message to be displayed
+ * @param {Function} props.onClose Called when user clicks "close" button
  */
 export default function Error(props) {
   return (
