@@ -7,6 +7,9 @@ A single page application built to learn React as part of Lighthouse Labs web de
 - [Front-end was deployed with Netlify](https://eager-noyce-132285.netlify.app/) and back-end server was deployed to Heroku
 
 ## Screenshots
+![Main](https://raw.githubusercontent.com/jpqy/scheduler/master/docs/main.png)
+![Form error](https://raw.githubusercontent.com/jpqy/scheduler/master/docs/form_error.png)
+![Delete confirmation](https://raw.githubusercontent.com/jpqy/scheduler/master/docs/delete.png)
 
 ## Setup
 
