@@ -8,7 +8,11 @@ A single page application built to learn React as part of Lighthouse Labs web de
 
 ## Screenshots
 ![Main](https://raw.githubusercontent.com/jpqy/scheduler/master/docs/main.png)
+&nbsp;
+
 ![Form error](https://raw.githubusercontent.com/jpqy/scheduler/master/docs/form_error.png)
+&nbsp;
+
 ![Delete confirmation](https://raw.githubusercontent.com/jpqy/scheduler/master/docs/delete.png)
 
 ## Setup
